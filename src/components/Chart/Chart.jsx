@@ -2,9 +2,16 @@ import React, { Component } from 'react'
 import { scaleBand, scaleLinear } from 'd3-scale'
 
 import data from '../../data'
+import Area from '../Area'
 import Axes from '../Axes'
+import Lines from '../Lines'
+import Circles from '../Circles'
 import Bars from '../Bars'
+import AwesomeShadow from '../Filters/AwesomeShadow'
 import ResponsiveWrapper from '../ResponsiveWrapper'
+
+data.sort((a,b) => a.value - b.value);
+
 
 class Chart extends Component {
   constructor() {
@@ -33,9 +40,19 @@ class Chart extends Component {
 
     return (
       <svg width={svgDimensions.width} height={svgDimensions.height}>
+        <defs>
+          <AwesomeShadow id="dropshadow" fill="#2a7cca"></AwesomeShadow>
+        </defs>
         <Axes
           scales={{ xScale, yScale }}
           margins={margins}
+          svgDimensions={svgDimensions}
+        />
+        {/* <Circles
+          scales={{ xScale, yScale }}
+          margins={margins}
+          data={data}
+          maxValue={maxValue}
           svgDimensions={svgDimensions}
         />
         <Bars
@@ -44,7 +61,40 @@ class Chart extends Component {
           data={data}
           maxValue={maxValue}
           svgDimensions={svgDimensions}
+        /> */}
+        <Lines
+          scales={{ xScale, yScale }}
+          margins={margins}
+          data={data}
+          maxValue={maxValue}
+          svgDimensions={svgDimensions}
+          filter='dropshadow'
         />
+        <Circles
+          scales={{ xScale, yScale }}
+          margins={margins}
+          data={data}
+          maxValue={maxValue}
+          svgDimensions={svgDimensions}
+          r="5"
+          fill="#2a7cca"
+        />
+        <Lines
+          scales={{ xScale, yScale }}
+          margins={margins}
+          data={data}
+          maxValue={maxValue}
+          svgDimensions={svgDimensions}
+          filter='dropshadow'
+        />
+        <Area
+          scales={{ xScale, yScale }}
+          margins={margins}
+          data={data}
+          maxValue={maxValue}
+          svgDimensions={svgDimensions}
+          // filter='dropshadow'
+        /> 
       </svg>
     )
   }
